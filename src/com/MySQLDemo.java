@@ -1,12 +1,14 @@
 package com;
 import java.sql.*;
+
+import com.utils.ResourceLoader;
  
 public class MySQLDemo {
 	
 	// 注册 JDBC 驱动
 	static{
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(ResourceLoader.getConfig("db.driver"));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -21,18 +23,14 @@ public class MySQLDemo {
             // 打开链接
             System.out.println("连接数据库...");
             conn = DriverManager.getConnection(
-            		"jdbc:mysql://localhost:3306/myweb1?characterEncoding=utf8",
-            		"root",
-            		"root123");
+            		ResourceLoader.getConfig("db.connectionString"),
+            		ResourceLoader.getConfig("db.username"),
+            		ResourceLoader.getConfig("db.password"));
         
             // 执行查询
             System.out.println(" 实例化Statement对象...");
             stmt = conn.createStatement();
             String sql;
-            //sql = "select * from t1";
-            sql = "SELECT t1.id, NAME, rst" + 
-            		" FROM t1 " + 
-            		" JOIN s1 ON t1.id=s1.id";
             
             sql = "select gid, gname, i.id, title, url " + 
             		" from web_group g" + 
@@ -44,15 +42,6 @@ public class MySQLDemo {
             // 展开结果集数据库
             while(rs.next()){
                 // 通过字段检索
-				/* int id = rs.getInt("id"); 
-				String name = rs.getString("name"); 
-				int rst = rs.getInt("rst");
-				
-				// 输出数据 System.out.print("学号: " + id); System.out.print(", 姓名: " + name);
-				System.out.print(", 成绩: " + rst); System.out.print("\n");
-				
-				result+=",{\"id\": "+id+", \"name\":\""+name+"\", \"rst\": "+rst+"}";
-				*/
             	int gid = rs.getInt("gid");
             	String gname = rs.getString("gname");
             	int id = rs.getInt("id");

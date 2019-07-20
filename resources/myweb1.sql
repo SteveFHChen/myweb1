@@ -1,4 +1,4 @@
-create database myweb1;
+create database if not exists myweb1;
 
 use myweb1;
 
@@ -45,8 +45,10 @@ insert into web_group values(4, '操作系统——Linux', 5);
 
 insert into web_item values(13, 5, '百度', 1, 'http://www.baidu.com/');
 insert into web_item values(14, 5, '菜鸟教程', 2, 'https://www.runoob.com/');
-insert into web_item values(15, 5, '等级考试', 3, 'http://ncre.neea.edu.cn/');
-insert into web_item values(16, 5, '计算机软考', 4, 'http://www.ruankao.org.cn/');
+insert into web_item values(15, 5, '等级考试', 11, 'http://ncre.neea.edu.cn/');
+insert into web_item values(16, 5, '计算机软考', 12, 'http://www.ruankao.org.cn/');
+insert into web_item values(17, 5, 'myweb1源码', 3, 'https://github.com/SteveFHChen/myweb1');
+
 insert into web_item values(1, 1, '安装MySQL', 1, '');
 insert into web_item values(2, 1, '建库', 2, '');
 insert into web_item values(3, 1, '表', 3, '');
