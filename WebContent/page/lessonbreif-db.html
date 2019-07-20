@@ -1,0 +1,151 @@
+﻿<!DOCTYPE>
+<html>
+<head>
+	<title>企业级软件开发课程</title>
+	<meta charset="UTF-8" />
+	<script type="text/javascript" src="./jquery-3.4.1.js"></script>
+	<style>
+div#mainBox {
+    display: block;
+    //background-color: #3d3;
+    width: 500px;
+    border: 5px solid #e03;
+    border:;
+    padding: 25px;
+    margin: auto;
+}
+h2 {
+    margin: auto;
+    display: block;
+    width: 378px;
+    padding: 10px;
+    color: #e03;
+    //border: 1px solid #0f0;
+    letter-spacing: 18px;
+}
+.cls-bar {
+    background-color: #e03;
+    height: 6px;
+}
+
+li {
+		display: inline-block;
+		//border: 1px solid #33f;
+		width: 109px;
+}
+
+span {
+    font-size: 19px;
+    font-family: fantasy;
+    margin: 0px;
+    background-color: #e03;
+    padding: 5px 20px;
+    border-radius: 0px 34px 0px 0px;
+    color: #fff;
+}
+
+.cls-wc {
+    width: 130px;
+    display: inline-block;
+}
+
+.cls-wc1 {
+    margin: auto;
+    font-size: xx-small;
+    width: fit-content;
+}
+
+img {
+    margin: auto;
+    display: block;
+}
+	</style>
+</head>
+<body>
+<div id="mainBox">
+	<h2>企业级软件开发课程</h2>
+	<div id="webContainer">
+	<!-- <span>数据库——MySQL</span><div class="cls-bar"></div><div><ul><li>安装MySQL</li><li>建库</li><li>表</li><li>索引</li><li>视图</li><li>SQL</li></ul></div><span>Web前端开发</span><div class="cls-bar"></div><div><ul><li>HTML5</li><li>盒子模型</li><li>CSS</li><li>JS</li><li>JQuery</li></ul></div><span>JavaWeb开发</span><div class="cls-bar"></div><div><ul><li></li></ul></div><span>操作系统——Linux</span><div class="cls-bar"></div><div><ul><li>null</li></ul></div> -->
+	</div>
+	<span>联系方式</span>
+	<div class="cls-bar"></div>
+	<div class="cls-wc">
+		<div class="cls-wc1">超越自我 创造奇迹</div>
+		<img src="./stv.jpg" style="width:100px;"/>
+		<div class="cls-wc1">扫一扫 加我微信</div>
+	</div>
+	<div id="contact" style="display:inline-block;">
+		<b>联系人：</b>陈老师（美国Oracle OCM认证大师）<br/><br/><b>联系电话：</b>19928403969<br/><br/><br/>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+(function(w){
+	generateWebItems = webItems=>{
+		let webItemsDom = "";
+		webItems.forEach(wi =>{
+			if(wi.url){
+				webItemsDom += "<li><a target='_blank' href='"+wi.url+"'>"+wi.title+"</a></li>";
+			}else{
+				webItemsDom += "<li>"+wi.title+"</li>";
+			}
+			
+		});
+		return webItemsDom;
+	}
+	
+	$.get("/myweb1/query",function(data,status){
+	    console.log("数据: " + data + "\n状态: " + status);
+	    w.webs = JSON.parse(data);
+	    console.log(w.webs);
+	    var displayDom = "";
+	    
+	    let webs2 = [];
+	    let webGroup = {id: -1, gname: null, webItems: []};
+	    for(let i=0; i<webs.length; i++){
+	    	if(!webGroup.gname || webGroup.gname==webs[i].gname){
+	    		webGroup.id = webs[i].gid;
+	    		webGroup.gname = webs[i].gname;
+	    		let webItem = {
+	    				id: webs[i].id,
+	    				title: webs[i].title,
+	    				url: webs[i].url
+	    				};
+	    		webGroup.webItems.push(webItem);
+	    	}else{
+	    		webs2.push(webGroup);
+	    		webGroup = {id: -1, gname: null, webItems: []};
+	    		
+	    		webGroup.id = webs[i].gid;
+	    		webGroup.gname = webs[i].gname;
+	    		if(!!webs[i].title && webs[i].title!=="null"){
+	    			let webItem = {
+		    				id: webs[i].id,
+		    				title: webs[i].title,
+		    				url: webs[i].url
+		    				};
+		    		webGroup.webItems.push(webItem);
+	    		}
+	    		
+	    	}
+	    }
+	    webs2.push(webGroup);
+	    console.log("webs2: ", webs2);
+	    
+	    webs2.forEach(wg => {
+	    		displayDom +=
+	    			"<span>"+wg.gname+"</span>"
+		    		+"<div class=\"cls-bar\"></div>"
+		    		+"<div>"
+		    		+"<ul>"
+		    		+generateWebItems(wg.webItems)
+		    		+"</ul>"
+		    		+"</div>"
+	    	});
+	    
+	    $("#webContainer").html(displayDom);
+	    console.log("displayDom: ", displayDom);
+	  });
+})(window)
+</script>
+</html>

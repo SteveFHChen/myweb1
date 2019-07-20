@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="./jquery-3.4.1.js"></script>
+<style type="text/css">
+table, th, td {
+    border:  1px solid;
+    width:  200px;
+}
+div {
+    margin: auto;
+}
+
+h1 {
+    margin:  auto;
+    width:  200px;
+}
+</style>
+</head>
+<body>
+	<h1>Hello world!</h1>
+	<div style="width:200px; height: 150px; background-color: #ee8;">
+		<!-- <table name="stuInfo">
+			 <tr><th>学号</th><th>姓名</th><th>成绩</th></tr>
+			<tr><td></td><td></td><td></td></tr> 
+		</table> -->
+	</div>
+</body>
+<script type="text/javascript">
+(function f1(w){
+	//alert("Hello.");
+	$.get("/myweb1/query",function(data,status){
+	    console.log("数据: " + data + "\n状态: " + status);
+	    w.stu = JSON.parse(data);
+	    var stuDisplay="<table><tr><th>学号</th><th>姓名</th><th>成绩</th></tr>";
+	    stu.forEach(s => {
+	    	stuDisplay+="<tr><td>"+s.id+"</td><td>"+s.name+"</td><td>"+s.rst+"</td></tr>";
+	    });
+	    stuDisplay+="</table>";
+	    $("div").html(stuDisplay);
+	  });
+})(window);
+</script>
+</html>
