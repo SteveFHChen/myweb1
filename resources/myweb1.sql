@@ -2,24 +2,6 @@ create database if not exists myweb1;
 
 use myweb1;
 
-create table t1(
-	id int,
-	name varchar(30)
-);
-
-create table s1(
-	id int,
-	rst int
-);
-
-insert into t1(id, name) values(1001, '张三');
-insert into t1(id, name) values(1002, '李四');
-
-insert into s1(id, rst) value(1001, 86);
-insert into s1(id, rst) value(1002, 98);
-
-commit;
-
 drop table if exists web_group;
 drop table if exists web_item;
 
