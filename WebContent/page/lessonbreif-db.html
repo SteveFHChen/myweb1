@@ -94,35 +94,37 @@ img {
 		return webItemsDom;
 	}
 	
-	$.get("/myweb1/query",function(data,status){
-	    console.log("数据: " + data + "\n状态: " + status);
-	    w.webs = JSON.parse(data);
-	    console.log(w.webs);
-	    var displayDom = "";
-	    
+	transform=webs1=>{
+		/*
+		 *  函数功能： 转化数据格式
+		 * 输入参数： webs1-待转化的数据
+		 * 输出数据： webs2 - 转化后的数据
+		 */
 	    let webs2 = [];
 	    let webGroup = {id: -1, gname: null, webItems: []};
-	    for(let i=0; i<webs.length; i++){
-	    	if(!webGroup.gname || webGroup.gname==webs[i].gname){
-	    		webGroup.id = webs[i].gid;
-	    		webGroup.gname = webs[i].gname;
+	    
+	    //依次遍历每一条记录
+	    for(let i=0; i<webs1.length; i++){
+	    	if(!webGroup.gname || webGroup.gname==webs1[i].gname){
+	    		webGroup.id = webs1[i].gid;
+	    		webGroup.gname = webs1[i].gname;
 	    		let webItem = {
-	    				id: webs[i].id,
-	    				title: webs[i].title,
-	    				url: webs[i].url
+	    				id: webs1[i].id,
+	    				title: webs1[i].title,
+	    				url: webs1[i].url
 	    				};
 	    		webGroup.webItems.push(webItem);
 	    	}else{
 	    		webs2.push(webGroup);
 	    		webGroup = {id: -1, gname: null, webItems: []};
 	    		
-	    		webGroup.id = webs[i].gid;
-	    		webGroup.gname = webs[i].gname;
-	    		if(!!webs[i].title && webs[i].title!=="null"){
+	    		webGroup.id = webs1[i].gid;
+	    		webGroup.gname = webs1[i].gname;
+	    		if(!!webs1[i].title && webs1[i].title!=="null"){
 	    			let webItem = {
-		    				id: webs[i].id,
-		    				title: webs[i].title,
-		    				url: webs[i].url
+		    				id: webs1[i].id,
+		    				title: webs1[i].title,
+		    				url: webs1[i].url
 		    				};
 		    		webGroup.webItems.push(webItem);
 	    		}
@@ -130,10 +132,21 @@ img {
 	    	}
 	    }
 	    webs2.push(webGroup);
+	    return webs2;
+	}
+	
+	$.get("/myweb1/query",function(data,status){
+	    console.log("数据: " + data + "\n状态: " + status);
+	    var webs = JSON.parse(data);
+	    console.log(webs);
+	    
+	    //转化数据格式
+	    var webs2 = transform(webs);
 	    console.log("webs2: ", webs2);
 	    
+	    var displayHTML = "";
 	    webs2.forEach(wg => {
-	    		displayDom +=
+	    	displayHTML +=
 	    			"<span>"+wg.gname+"</span>"
 		    		+"<div class=\"cls-bar\"></div>"
 		    		+"<div>"
@@ -143,8 +156,8 @@ img {
 		    		+"</div>"
 	    	});
 	    
-	    $("#webContainer").html(displayDom);
-	    console.log("displayDom: ", displayDom);
+	    $("#webContainer").html(displayHTML);
+	    console.log("displayDom: ", displayHTML);
 	  });
 })(window)
 </script>

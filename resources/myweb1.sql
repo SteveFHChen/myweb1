@@ -12,7 +12,7 @@ create table web_group(
 );
 
 create table web_item(
-	id	int,
+	id int,
 	gid int,
 	title varchar(100),
 	order_id int,
