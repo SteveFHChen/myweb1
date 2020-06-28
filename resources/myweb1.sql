@@ -50,3 +50,22 @@ select gid, gname, i.id, title, url
 from web_group g
 left join web_item i on g.id=i.gid
 order by g.order_id, i.order_id;
+
+#Modify ID column to auto increment
+DROP TABLE tt1;
+CREATE TABLE tt1(id INT, NAME VARCHAR(10));
+CREATE TABLE tt1(id INT NOT NULL AUTO_INCREMENT, NAME VARCHAR(10));
+ALTER TABLE tt1 CHANGE COLUMN id  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE tt1 MODIFY id INT NOT NULL AUTO_INCREMENT PRIMARY KEY;
+SELECT * FROM tt1;
+INSERT INTO tt1(id, NAME) VALUES(1001, 'Zhang3');
+INSERT INTO tt1(NAME) VALUES('Li4');
+
+#Add created time column
+ALTER TABLE web_group ADD created_time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+UPDATE web_group SET created_time=CURRENT_TIMESTAMP;
+SELECT * FROM web_group;
+
+ALTER TABLE web_item ADD created_time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+UPDATE web_item SET created_time=CURRENT_TIMESTAMP;
+SELECT * FROM web_item;
